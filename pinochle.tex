@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amssymb,gensymb,graphicx,float,geometry,wrapfig,mathrsfs, dsfont, tikz}
+\usepackage{setspace}
+\usepackage{graphicx}
+\graphicspath{ {CardioidImages/} }
+\doublespacing
+\setlength{\parindent}{1cm}
+\geometry{letterpaper,margin=1in}
+%% \allowdisplaybreaks
+
+\title{Domain and Range}
+\author{Calhan Ring}
+\date{June 7, 2016}
+
+\begin{document}
+
+\begin{center}
+  Should I Bid?
+  The chances your partner has what you want.
+\end{center}
+
+When bidding in pinochle, the question frequently arises: What are the chances my partner has what I'm looking for? Let's consider a few common scenarios. (Note: This document assumes Livengood scoring rules.) \\
+\indent 1. You need one card to complete a double marriage. Let's say you have $ K\heartsuit K \heartsuit Q \heartsuit $ three legs of a double marriage, and you are relying on your partner's pass. Intuition likely tells you there is a 1 in 3 chance of your partner having the missing $ Q\heartsuit$, and you would be correct. There are a variety of ways to consider this, but let's not dwell on it. \\
+\indent 2. You need one card to complete a run. Let's say you have $A10KQ\spadesuit $ and you need the missing $J\spadesuit$to complete your run. Since this is a pinochle deck, you know there are two $J\heartsuit$ out there. Intuition initially may tell you there is a 2 in 3 chance your partner has the jack you need. Your intuition is wrong! Here is how we can calculate the odds.\\
+\indent There are three possibilities: You're partner has zero, one, or two  $ J \spadesuit$. Let's calculate the odds your partner does \underline{not} have the jack. In order for this to occur, your partner would pick up 12 non $ J\spadesuit$ in a row. The odds the first card would not be a $ J\spadesuit$ , would be $ \frac{34}{36} $. The 36 represents all the cards not in your hand, and the 34 represents all the cards that aren't $J\spadesuit$. The odds the second card picked up would be $\frac{33}{35}$, again with the 35 representing the cards that aren't in your hand, or the first card your partner drew, and 33, the number of non $J\spadesuit$. The likelihood of these two events happening one after the other is $\frac{34}{36}\cdot \frac{33}{35}$. Carrying this logic forward, we consider 12 consecutive events by calculating $\frac{34}{36}\cdot \frac{33}{35}\cdot \frac{32}{34}\cdot ... \cdot\frac{22}{24}$. The calculation for the likelihood our partner has the card we are looking for follows:
+\begin{equation}
+1-\frac{\frac{34!}{22!}}{\frac{36!}{24!}}=1-\frac{34!}{22!}\cdot \frac{24!}{36!}=1-\frac{24\cdot23}{36\cdot35}=1-\frac{46}{105}=\frac{59}{105}\approx 0.56
+\end{equation}
+So, the likelihood our partner has what we are looking for if either or both of the two cards will give what we need is $56\%$.\\
+\indent Let's say you have a couple options for making decent meld, and any of three cards would suffice. Lets say you have $AKKQJ\clubsuit$. By Equation 1 you know there is a $56\%$ chance your partner has one or both $10\clubsuit$ for the run, and a $33\%$ chance they can fill you in for the double marriage. You configuration of the three cards makes bidding worthwhile, so you use a similar logic as in equation 1. The calculation for the likelihood our partner has the card we are looking for follows:
+\begin{equation}
+ 1-\frac{\frac{33!}{21!}}{\frac{36!}{24!}}=1-\frac{33!}{21!}\cdot \frac{24!}{36!}=1-\frac{24\cdot 23\cdot 22}{36\cdot 35\cdot 34}=1-\frac{506}{1785}=\frac{1279}{1785}\approx 0.72
+\end{equation}
+So, if any of the three cards is enough for you to bid on, there is a $72\%$ chance your partner has one or more of the cards you need.\\
+\indent We can generalize this calculation by letting $n$ be the number of cards we could recieve that would make our hand worth bidding on:
+\begin{equation}
+1-\frac{(36-n)!}{(24-n)!}\cdot \frac{24!}{36!}
+\end{equation}
+The odds calculated in this document are the odds one's partner has the specific card(s) one has in mind. There are other unforeseen possible passes that help a bidder make meld and take tricks, so the odds of a receiving a pass that can still make for a successful hand will be somewhat higher than the odds calculated by Equation 3. 
+\end{document}
+
