@@ -3,6 +3,7 @@
 \usepackage{amsmath,amsthm,amssymb,gensymb,graphicx,float,geometry,wrapfig,mathrsfs, dsfont, tikz}
 \usepackage{setspace}
 \usepackage{graphicx}
+\usepackage{listings}
 \graphicspath{ {CardioidImages/} }
 \doublespacing
 \setlength{\parindent}{1cm}
@@ -16,8 +17,8 @@
 \begin{document}
 
 \begin{center}
-  Should I Bid?
-  The chances your partner has what you want.
+  \textbf{Should I Bid?}\\
+  \textit{The chances your partner has what you want!}
 \end{center}
 
 When bidding in pinochle, the question frequently arises: What are the chances my partner has what I'm looking for? Let's consider a few common scenarios. (Note: This document assumes Livengood scoring rules.) \\
@@ -37,6 +38,39 @@ So, if any of the three cards is enough for you to bid on, there is a $72\%$ cha
 \begin{equation}
 1-\frac{(36-n)!}{(24-n)!}\cdot \frac{24!}{36!}
 \end{equation}
-The odds calculated in this document are the odds one's partner has the specific card(s) one has in mind. There are other unforeseen possible passes that help a bidder make meld and take tricks, so the odds of a receiving a pass that can still make for a successful hand will be somewhat higher than the odds calculated by Equation 3. 
+The odds calculated in this document are the odds one's partner has the specific card(s) one has in mind. There are other unforeseen possible passes that help a bidder make meld and take tricks, so the odds of a receiving a pass that can still make for a successful hand will be somewhat higher than the odds calculated by Equation 3.\\
+\begin{center}
+  \textbf{Checking Our Work}
+\end{center}
+Lets simulate some card hands and see if our calculations are correct.
+We will use the R language to run our simulation.
+\begin{lstlisting}[language=R]
+set.seed(1)
+draw <- function(){
+    deck <- c(1:24, 1:24)
+    deck <- sample(deck,48)
+    list(deck[1:12],
+         deck[13:24],
+         deck[25:36],
+         deck[37:48])
+}
+findCard <- function(hand){
+    (1:24)[!1:24 %in% hand][1]
+}
+check <- function(hand, card){
+    any(hand %in% card)
+}
+game <- function(x){
+    hands <- draw()
+    card  <- findCard(hands[[1]])
+    check(hands[[2]], card)
+}
+runs <- sapply(1:10000, game)
+sum(runs)/length(runs)
+## [1] 0.5642
+\end{lstlisting}
+So we can see that when we simulate 10,000 hands where the player is looking for one card that they do not have, their partner had it 56.42 persent of the time.\\
+\\
+\textbf{Flip a coin folks!}
 \end{document}
 
