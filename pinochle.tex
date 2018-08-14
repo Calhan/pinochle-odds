@@ -21,10 +21,12 @@
   \textit{The chances your partner has what you want!}
 \end{center}
 
-When bidding in pinochle, the question frequently arises: What are the chances my partner has what I'm looking for? Let's consider a few common scenarios. (Note: This document assumes Livengood scoring rules.) \\
+When bidding in pinochle, the question frequently arises: What are the chances my partner has what I'm looking for? Let's consider a few common scenarios. (Note: This document assumes Livengood scoring rules.)
+
 \begin{center}
   Bidding For Meld\\
-  \end{center}
+\end{center}
+
 \indent 1. You need one card to complete a double marriage. Let's say you have $ K\heartsuit K \heartsuit Q \heartsuit $ three legs of a double marriage, and you are relying on your partner's pass. Intuition likely tells you there is a 1 in 3 chance of your partner having the missing $ Q\heartsuit$, and you would be correct. There are a variety of ways to consider this, but let's not dwell on it. \\
 \indent 2. You need one card to complete a run. Let's say you have $A10KQ\spadesuit $ and you need the missing $J\spadesuit$ to complete your run. Since this is a pinochle deck, you know there are two $J\heartsuit$ out there. Intuition initially may tell you there is a 2 in 3 chance your partner has the jack you need. Your intuition is wrong! Here is how we can calculate the odds.\\
 \indent There are three possibilities: You're partner has zero, one, or two  $ J \spadesuit$. Let's calculate the odds your partner does \underline{not} have the jack. In order for this to occur, your partner would pick up 12 non $ J\spadesuit$ in a row. The odds the first card would not be a $ J\spadesuit$ , would be $ \frac{34}{36} $. The 36 represents all the cards not in your hand, and the 34 represents all the cards that aren't $J\spadesuit$. The odds the second card picked up would be $\frac{33}{35}$, again with the 35 representing the cards that aren't in your hand, or the first card your partner drew, and 33, the number of non $J\spadesuit$. The likelihood of these two events happening one after the other is $\frac{34}{36}\cdot \frac{33}{35}$. Carrying this logic forward, we consider 12 consecutive events by calculating $\frac{34}{36}\cdot \frac{33}{35}\cdot \frac{32}{34}\cdot ... \cdot\frac{22}{24}$. The calculation for the likelihood our partner has the card we are looking for follows:
@@ -80,7 +82,7 @@ So we can see that when we simulate 10,000 hands where the player is looking for
   Bidding for a Playing Hand
 \end{center}
 \indent
-Another consideration when bidding is the strength of one's playing hand including the number of losers the bidder would like to be pass away to their partner. This next section considers the likelihood of ridding one's hand of 0,1,2,3 or 4 losers. We will approach this question by considering the number of winners your partner is likely to be able to pass you. We will consider 18 cards to be winners, the 12 trump cards and 6 non-trump Aces. (The following does not consider the possibility of turning cards into winners, such as having AA10 in a non-trump suit.)
+Another consideration when bidding is the strength of one's playing hand including the number of losers the bidder would like to be pass away to their partner. This next section considers the likelihood of ridding one's hand of 0,1,2,3 or 4 losers. We will approach this question by considering the number of winners your partner is likely to be able to pass you. We will consider 18 cards to be winners, the 12 trump cards and 6 non-trump Aces. (The following does not consider the possibility of turning cards into winners, such as having A-A-10 in a non-trump suit.)
 \indent  1. Probability your partner can only send you losers. Let $n=$ the number of winners in the bidder's hand. There are $18-n$ winners in the 36 cards not in the bidder's hand. For the bidder's partner to have no winners they will have to pick up 12 losers in a row. The chances are
 \begin{equation}
   \frac{36-(18-n)}{36} \cdot \frac{35-(18-n)}{35}\cdot \frac{34-(18-n)}{34}\cdot ...\cdot \frac{25-(18-n)}{25}
