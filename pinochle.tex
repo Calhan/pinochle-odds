@@ -1,4 +1,4 @@
- \documentclass[11pt]{article}
+\documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsthm,amssymb,gensymb,graphicx,float,geometry,wrapfig,mathrsfs, dsfont, tikz}
 \usepackage{setspace}
@@ -27,14 +27,14 @@ When bidding in pinochle, the question frequently arises: What are the chances m
   Bidding For Meld\\
 \end{center}
 
-\indent 1. You need one card to complete a double marriage. Let's say you have $ K\heartsuit K \heartsuit Q \heartsuit $ three legs of a double marriage, and you are relying on your partner's pass. Intuition likely tells you there is a 1 in 3 chance of your partner having the missing $ Q\heartsuit$, and you would be correct. There are a variety of ways to consider this, but let's not dwell on it. \\
-\indent 2. You need one card to complete a run. Let's say you have $A10KQ\spadesuit $ and you need the missing $J\spadesuit$ to complete your run. Since this is a pinochle deck, you know there are two $J\heartsuit$ out there. Intuition initially may tell you there is a 2 in 3 chance your partner has the jack you need. Your intuition is wrong! Here is how we can calculate the odds.\\
+\indent \textbf{1.} You need one card to complete a double marriage. Let's say you have $ K\heartsuit K \heartsuit Q \heartsuit $ three legs of a double marriage, and you are relying on your partner's pass. Intuition likely tells you there is a 1 in 3 chance of your partner having the missing $ Q\heartsuit$, and you would be correct. There are a variety of ways to consider this, but let's not dwell on it. \\
+\indent \textbf{2.} You need one card to complete a run. Let's say you have $A10KQ\spadesuit $ and you need the missing $J\spadesuit$ to complete your run. Since this is a pinochle deck, you know there are two $J\heartsuit$ out there. Intuition initially may tell you there is a 2 in 3 chance your partner has the jack you need. Your intuition is wrong! Here is how we can calculate the odds.\\
 \indent There are three possibilities: You're partner has zero, one, or two  $ J \spadesuit$. Let's calculate the odds your partner does \underline{not} have the jack. In order for this to occur, your partner would pick up 12 non $ J\spadesuit$ in a row. The odds the first card would not be a $ J\spadesuit$ , would be $ \frac{34}{36} $. The 36 represents all the cards not in your hand, and the 34 represents all the cards that aren't $J\spadesuit$. The odds the second card picked up would be $\frac{33}{35}$, again with the 35 representing the cards that aren't in your hand, or the first card your partner drew, and 33, the number of non $J\spadesuit$. The likelihood of these two events happening one after the other is $\frac{34}{36}\cdot \frac{33}{35}$. Carrying this logic forward, we consider 12 consecutive events by calculating $\frac{34}{36}\cdot \frac{33}{35}\cdot \frac{32}{34}\cdot ... \cdot\frac{22}{24}$. The calculation for the likelihood our partner has the card we are looking for follows:
 \begin{equation}
 1-\frac{\frac{34!}{22!}}{\frac{36!}{24!}}=1-\frac{34!}{22!}\cdot \frac{24!}{36!}=1-\frac{24\cdot23}{36\cdot35}=1-\frac{46}{105}=\frac{59}{105}\approx 0.56
 \end{equation}
 So, the likelihood our partner has what we are looking for if either or both of the two cards will give what we need is $56\%$.\\
-\indent Let's say you have a couple options for making decent meld, and any of three cards would suffice. Lets say you have $AKKQJ\clubsuit$. By Equation 1 you know there is a $56\%$ chance your partner has one or both $10\clubsuit$ for the run, and a $33\%$ chance they can fill you in for the double marriage. You configuration of the three cards makes bidding worthwhile, so you use a similar logic as in equation 1. The calculation for the likelihood our partner has the card we are looking for follows:
+\indent Let's say you have a couple options for making decent meld, and any of three cards would suffice. Lets say you have $AKKQJ\clubsuit$. By Equation 1 you know there is a $56\%$ chance your partner has one or both $10\clubsuit$ for the run, and a $33\%$ chance they can fill you in for the double marriage. You configuration of the three cards makes bidding worthwhile, so you use a similar logic as in equation \textbf{1.} The calculation for the likelihood our partner has the card we are looking for follows:
 \begin{equation}
  1-\frac{\frac{33!}{21!}}{\frac{36!}{24!}}=1-\frac{33!}{21!}\cdot \frac{24!}{36!}=1-\frac{24\cdot 23\cdot 22}{36\cdot 35\cdot 34}=1-\frac{506}{1785}=\frac{1279}{1785}\approx 0.72
 \end{equation}
@@ -43,7 +43,7 @@ So, if any of the three cards is enough for you to bid on, there is a $72\%$ cha
 \begin{equation}
 1-\frac{(36-n)!}{(24-n)!}\cdot \frac{24!}{36!}
 \end{equation}
-The odds calculated in this document are the odds one's partner has the specific card(s) one has in mind. There are other unforeseen possible passes that help a bidder make meld and take tricks, so the odds of a receiving a pass that can still make for a successful hand will be somewhat higher than the odds calculated by Equation 3.\\
+The odds calculated in this document are the odds one's partner has the specific card(s) one has in mind. There are other unforeseen possible passes that help a bidder make meld and take tricks, so the odds of a receiving a pass that can still make for a successful hand will be somewhat higher than the odds calculated by Equation \textbf{3.}\\
 \begin{center}
   \textbf{Checking Our Work}
 \end{center}
@@ -53,13 +53,10 @@ We will use the R language to run our simulation.
 set.seed(1)
 draw <- function(){
     deck <- c(1:24, 1:24)
-    deck <- sample(deck,48)
-    list(deck[1:12],
-         deck[13:24],
-         deck[25:36],
-         deck[37:48])
+    deck <- sample(deck, length(deck))
+    split(deck, rep(1:4, each = 12))
 }
-findCard <- function(hand){
+whichCard <- function(hand){
     (1:24)[!1:24 %in% hand][1]
 }
 check <- function(hand, card){
@@ -67,14 +64,14 @@ check <- function(hand, card){
 }
 game <- function(x){
     hands <- draw()
-    card  <- findCard(hands[[1]])
+    card  <- whichCard(hands[[1]])
     check(hands[[2]], card)
 }
 runs <- sapply(1:10000, game)
 sum(runs)/length(runs)
 ## [1] 0.5642
 \end{lstlisting}
-So we can see that when we simulate 10,000 hands where the player is looking for one card that they do not have, their partner had it 56.42 percent of the time.\\
+So we can see that when we simulate 10,000 hands where the player is looking for one card that they do not have, their partner had it 5\textbf{6.}42 percent of the time.\\
 \\
 \textbf{Flip a coin folks!}
 
@@ -82,8 +79,8 @@ So we can see that when we simulate 10,000 hands where the player is looking for
   Bidding for a Playing Hand
 \end{center}
 \indent
-Another consideration when bidding is the strength of one's playing hand including the number of losers the bidder would like to be pass away to their partner. This next section considers the likelihood of ridding one's hand of 0,1,2,3 or 4 losers. We will approach this question by considering the number of winners your partner is likely to be able to pass you. We will consider 18 cards to be winners, the 12 trump cards and 6 non-trump Aces. (The following does not consider the possibility of turning cards into winners, such as having A-A-10 in a non-trump suit.)
-\indent  1. Probability your partner can only send you losers. Let $n=$ the number of winners in the bidder's hand. There are $18-n$ winners in the 36 cards not in the bidder's hand. For the bidder's partner to have no winners they will have to pick up 12 losers in a row. The chances are
+Another consideration when bidding is the strength of one's playing hand including the number of losers the bidder would like to be pass away to their partner. This next section considers the likelihood of ridding one's hand of 0, 1, 2, 3 or 4 losers. We will approach this question by considering the number of winners your partner is likely to be able to pass you. We will consider 18 cards to be winners, the 12 trump cards and 6 non-trump Aces. (The following does not consider the possibility of turning cards into winners, such as having A-A-10 in a non-trump suit.)\\
+\indent \textbf{\textbf{1.}} Probability your partner can only send you losers. Let $n=$ the number of winners in the bidder's hand. There are $18-n$ winners in the 36 cards not in the bidder's hand. For the bidder's partner to have no winners they will have to pick up 12 losers in a row. The chances are
 \begin{equation}
   \frac{36-(18-n)}{36} \cdot \frac{35-(18-n)}{35}\cdot \frac{34-(18-n)}{34}\cdot ...\cdot \frac{25-(18-n)}{25}
 \end{equation}
@@ -91,7 +88,7 @@ More concisely, we may say the likelihood of the partner having no winners to pa
 \begin{equation}
  P(0\text{ winners})= \frac{(18+n)!}{(6+n)!}\cdot \frac{24!}{36!}
 \end{equation}
-\indent 2. Probability your partner can only pass one winner. Let's assume the winner is the first card drawn, then we will multiply by 12 to account for the other possible positions of the one winner.
+\indent \textbf{2.} Probability your partner can only pass one winner. Let's assume the winner is the first card drawn, then we will multiply by 12 to account for the other possible positions of the one winner.
 \begin{equation}
 \frac{18-n}{36}\cdot \frac{18+n}{35}\cdot \frac {17+n}{34}\cdot ...\cdot \frac{8+n}{25} \cdot 12
 \end {equation}
@@ -100,7 +97,7 @@ And so the probability is:
  P(1 \text{ winner})= 12\cdot (18-n)\cdot \frac{(18+n)!}{(7+n)!}\cdot \frac{24!}{36!}
 \end{equation}
 \indent
-3. Probability your partner has two winners to pass. Let's assume the two winners are the first two cards drawn, followed by 10 losers:\\
+\textbf{3.} Probability your partner has two winners to pass. Let's assume the two winners are the first two cards drawn, followed by 10 losers:\\
 \begin {center}
 \underline{W} \underline{W} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L}
 \end {center}
@@ -136,7 +133,7 @@ We represent combination of all these possibilities by:
 \begin{equation}
 P(2\text{ winners})= \left( \displaystyle\sum_{m=1}^{11} m \right) \cdot \frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!} \text{ or } 66 \cdot \frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!}
 \end{equation}
-\indent 4.The probability your partner has 3 winners. Let's begin by finding the probability for a particular case, then we will figure the number of possible cases. Probability for 3 winners followed by 9 losers:
+\indent \textbf{4.}The probability your partner has 3 winners. Let's begin by finding the probability for a particular case, then we will figure the number of possible cases. Probability for 3 winners followed by 9 losers:
 \begin {center}
   \underline{W} \underline{W} \underline{W} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L}\\
   \end{center}
@@ -163,14 +160,14 @@ We multiply the 220 combinations by the likelihood of any particular pattern of 
 \begin {equation} 
 P(3 \text{ winners})=220\cdot \frac{(18-n)!}{(15-n)!}\cdot \frac{(18+n)!24!}{(9+n)!36!}
 \end{equation}
-\indent 5. Finally we consider the possibility your partner has 4 or more winners, and so able to give a loser free pass. This means they don't have just 0, 1, 2 or 3 winners, so we can subtract the previously determined probabilities from 1 to get:
+\indent \textbf{5.} Finally we consider the possibility your partner has 4 or more winners, and so able to give a loser free pass. This means they don't have just 0, 1, 2 or 3 winners, so we can subtract the previously determined probabilities from 1 to get:
 \begin {equation}
   \begin{aligned}
     P(4 \text{+ winners})=1&-\frac{(18+n)!}{(6+n)!}\cdot \frac{24!}{36!} -12\cdot (18-n)\cdot \frac{(18+n)!}{(7+n)!}\cdot \frac{24!}{36!}\\
     & -66 \cdot \frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!}  - 220\cdot \frac{(18-n)!}{(15-n)!}\cdot \frac{(18+n)!24!}{(9+n)!36!}
 \end{aligned}
 \end{equation}
-6. Let's run some numbers on some common scenarios. 
+\textbf{6.} Let's run some numbers on some common scenarios. 
 
 \end{document}
 
