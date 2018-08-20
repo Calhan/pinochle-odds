@@ -98,7 +98,7 @@ So we can see that when we simulate 10,000 hands where the player is looking for
  II. Bidding for a Playing Hand
 \end{center}
 \indent
-Another consideration when bidding is the strength of one's playing hand, including the number of losers the bidder would like to pass away to their partner. This next section calculates the likelihood of ridding one's hand of 0,1,2,3 or a maximum of 4 losers. We approach this question via the number of winners your partner is likely to be able to pass you, enabling you to rid yourself of an equal number of losers in the return pass. We label 18 cards to be winners: the 12 trump cards and 6 non-trump Aces. (The following does not include the possibility of turning cards into winners, such as having A-A-10 in a non-trump suit. As in the Bidding for Meld section, unsought  possibilities make ones chances beyond those calculated here.)\\
+Another consideration when bidding is the strength of one's playing hand, including the number of losers the bidder would like to pass away to their partner. This next section calculates the likelihood of ridding one's hand of 0,1,2,3 or a maximum of 4 losers. We approach this question via the number of winners your partner is likely to be able to pass you, enabling you to rid yourself of an equal number of losers in the return pass. We label 18 cards to be winners: the 12 trump cards and 6 non-trump Aces. (The following does not include the possibility of turning cards into winners, such as having A-A-10 in a non-trump suit. As in the Bidding for Meld section, unsought  possibilities make one's chances higher than those calculated here.)\\
 \indent  1. Probability your partner can only send you losers. Let $n=$ the number of winners in the bidder's hand. There are $18-n$ winners in the 36 cards not in the bidder's hand. For the bidder's partner to have no winners they will have to pick up 12 losers in a row. The chances are
 \begin{equation}
   \frac{36-(18-n)}{36} \cdot \frac{35-(18-n)}{35}\cdot \frac{34-(18-n)}{34}\cdot ...\cdot \frac{25-(18-n)}{25}.
@@ -107,7 +107,7 @@ More concisely, we may say the likelihood of the partner having no winners to pa
 \begin{equation}
  P(0\text{ winners})= \frac{(18+n)!}{(6+n)!}\cdot \frac{24!}{36!}
 \end{equation}
-\indent 2. Probability your partner can only pass one winner. Let's assume the winner is the first card drawn, then we will multiply by 12 to account for the other possible positions of the one winner.
+\indent 2. Probability your partner can only pass one winner. For the next few scenarios, we will calculate the probability of a particular arrangement of a particular number of winners and losers in the partner's hand, then multiply by the number of equally likely arrangements in the partner's hand. Let's assume the winner is the first card drawn, then we will multiply by 12 to account for the other possible positions of the one winner.
 \begin{equation}
 \frac{18-n}{36}\cdot \frac{18+n}{35}\cdot \frac {17+n}{34}\cdot ...\cdot \frac{8+n}{25} \cdot 12
 \end {equation}
@@ -123,7 +123,7 @@ And so the probability is:
 \begin {equation}
 \frac{18-n}{36}\cdot \frac{17-n}{35}\cdot \frac{18+n}{34} \cdot \frac{17+n}{33}\cdot ...\cdot \frac {9+n}{25}=\frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!}
 \end{equation}
-Now notice, given the first card is a winner there are 11 possible locations for the second winner:
+Now we must consider the numbers of distinct combinations of 2 winners and 10 losers. Given the first card is a winner there are 11 possible locations for the second winner:
 \begin {center}
   \underline{W} \underline{L} \underline{W} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L}\\
   \underline{W} \underline{L} \underline{L} \underline{W} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L}\\
@@ -148,7 +148,7 @@ As the first winner progresses, the possible locations dwindle until there is on
 \begin {center}
   \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{L} \underline{W} \underline{W}\\
   \end{center}
-The likelihood of any particular combination of winners and losers is $\frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!}$ and there are $11+12+...1$ of them. We may represent combination of these possibilities by:
+The likelihood of any particular combination of winners and losers is $\frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!}$ and there are $11+10+...+1$ of them. We may represent combination of these possibilities by:
 \begin{equation}
 P(2\text{ winners})= \left( \displaystyle\sum_{m=1}^{11} m \right) \cdot \frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!} \text{ or } 66 \cdot \frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!}.
 \end{equation}
@@ -186,7 +186,7 @@ P(3 \text{ winners})=220\cdot \frac{(18-n)!}{(15-n)!}\cdot \frac{(18+n)!24!}{(9+
     & -66 \cdot \frac{(18-n)!}{(16-n)!}\cdot \frac{(18+n)!24!}{(8+n)!36!}  - 220\cdot \frac{(18-n)!}{(15-n)!}\cdot \frac{(18+n)!24!}{(9+n)!36!}
 \end{aligned}
 \end{equation}
-\indent 6. Table 2 was created using the aforementioned formulae. The first column is the number of winners in the bidder's hand, and the remaining columns calculate the likelihood of $0,1,2,3$ or $4+$ winners in the partner's hand.\\
+\indent 6. Table 2 was created using the aforementioned formulae. The first column is the number of winners in the bidder's hand, and the remaining columns calculate the likelihood of $0,1,2,3$ or $4+$ winners in the partner's hand given the number of winners in the bidder's hand.\\
 \begin{table}[]
   \caption{Partner Winner Probability given Bidder Winners}
   \centering
@@ -204,6 +204,6 @@ Bidder's Winners & Partner has 0 & Partner has 1 & Partner has 2 & Partner has 3
 11                 & 0.041461101   & 0.19348514    & 0.33605313    & 0.28004428    & 0.148956349    \\ \hline
 \end{tabular}
 \end{table}
-Example: If the bidder has seven winners in their hand (and therefore five losers), they have a $54\%$ chance of receiving four winners (leading to a 11 winner/1 loser hand), a $27\%$ chance of receiving three winners (leading to a 10 winner/2 loser hand), a $14\%$ chance of receiving only two winner (leading to a 9 winner/3 loser hand)...and so on.  
+Example: If the bidder has seven winners in their hand (and therefore five losers), they have a $54\%$ chance of receiving four winners (leading to a 11 winner/1 loser hand), a $27\%$ chance of receiving three winners (leading to a 10 winner/2 loser hand), a $14\%$ chance of receiving only two winners (leading to a 9 winner/3 loser hand)...and so on.  
 \end{document}
 
